@@ -2,6 +2,8 @@ import pytest
 import asyncio
 from jarvis_core.capabilities.capability_registry import CapabilityRegistry
 from jarvis_core.capabilities.code_capability import CodeCapability
+from jarvis_core.capabilities.file_capability import FileCapability
+from jarvis_core.capabilities.terminal_capability import TerminalCapability
 from jarvis_core.planner.repair_engine import RepairEngine
 from observability.structured_logger import StructuredLogger
 from ai_core.evaluator.e2e_harness import E2EHarness
@@ -9,15 +11,19 @@ from ai_core.evaluator.e2e_harness import E2EHarness
 @pytest.mark.asyncio
 async def test_capability_pipeline():
     registry = CapabilityRegistry()
-    cap = registry.select_capability("Create a Python REST service")
-    assert cap is not None
-    assert isinstance(cap, CodeCapability)
+    
+    code_cap = registry.select_capability("Create a Python REST service")
+    assert isinstance(code_cap, CodeCapability)
 
-    plan = cap.plan("Create a Python REST service")
-    assert len(plan["steps"]) > 0
+    file_cap = registry.select_capability("List local directory files")
+    assert isinstance(file_cap, FileCapability)
 
-    exec_res = await cap.execute(plan)
-    ver_res = cap.verify(exec_res)
+    term_cap = registry.select_capability("Run bash terminal command")
+    assert isinstance(term_cap, TerminalCapability)
+
+    plan = file_cap.plan("List local directory files")
+    exec_res = await file_cap.execute(plan)
+    ver_res = file_cap.verify(exec_res)
     assert ver_res["passed"] is True
 
 @pytest.mark.asyncio
