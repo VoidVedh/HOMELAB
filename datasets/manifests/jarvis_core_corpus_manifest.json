@@ -1,0 +1,13 @@
+{
+  "dataset_name": "jarvis_core_corpus",
+  "license": "MIT / Self-Authored",
+  "hash": "27422c2194ecb3343e64492ccd8071f23e572962b61a209199433efbae9eff2f",
+  "total_lines": 6,
+  "total_tokens_approx": 71,
+  "splits": {
+    "train_lines": 4,
+    "val_lines": 0,
+    "test_lines": 2
+  },
+  "timestamp": 1784639324.9406028
+}
