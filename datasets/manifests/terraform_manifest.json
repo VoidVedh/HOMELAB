@@ -1,0 +1,19 @@
+{
+  "id": "terraform_v1",
+  "domain": "Terraform",
+  "source": "Internal Research Synthetic Corpus",
+  "license": "MIT",
+  "version": "1.0.0",
+  "checksum": "sha256:65f6fd9e0ffea51fa14b6bd56fec4820b58b242b0911a0110bb5a7f74ccd65e7",
+  "tokenizer": "byte_bpe_v2",
+  "documents": 20,
+  "tokens": 1932,
+  "created": "2026-07-23 00:32:09",
+  "average_sequence_length": 94.6,
+  "vocabulary_coverage_pct": 12.59,
+  "duplicate_percentage": 76.67,
+  "language_distribution": {
+    "en": 0.6,
+    "code": 0.4
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "technical_documentation_v1",
+  "domain": "Technical_Documentation",
+  "source": "Internal Research Synthetic Corpus",
+  "license": "MIT",
+  "version": "1.0.0",
+  "checksum": "sha256:b8a891a0b92bd8ef97a5db6f6631dd1660b3fb2ce69127479caf97a5fb2300fc",
+  "tokenizer": "byte_bpe_v2",
+  "documents": 20,
+  "tokens": 2512,
+  "created": "2026-07-23 00:32:10",
+  "average_sequence_length": 123.6,
+  "vocabulary_coverage_pct": 12.78,
+  "duplicate_percentage": 63.33,
+  "language_distribution": {
+    "en": 0.6,
+    "code": 0.4
+  }
+}

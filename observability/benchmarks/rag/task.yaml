@@ -1,0 +1,6 @@
+category: rag
+description: Automated research evaluation benchmark suite for rag
+tasks:
+- id: rag_task_01
+  name: Rag Verification Suite 1
+version: 1.0.0

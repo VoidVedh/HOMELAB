@@ -1,0 +1,19 @@
+{
+  "id": "cybersecurity_v1",
+  "domain": "Cybersecurity",
+  "source": "Internal Research Synthetic Corpus",
+  "license": "MIT",
+  "version": "1.0.0",
+  "checksum": "sha256:4be5e605e295e15aefd9ad53d6b21c153ab79e43fbc5ae045629bbe444966ac4",
+  "tokenizer": "byte_bpe_v2",
+  "documents": 20,
+  "tokens": 2152,
+  "created": "2026-07-23 00:32:09",
+  "average_sequence_length": 105.6,
+  "vocabulary_coverage_pct": 13.89,
+  "duplicate_percentage": 54.0,
+  "language_distribution": {
+    "en": 0.6,
+    "code": 0.4
+  }
+}

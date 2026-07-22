@@ -1,0 +1,6 @@
+category: model
+description: Automated research evaluation benchmark suite for model
+tasks:
+- id: model_task_01
+  name: Model Verification Suite 1
+version: 1.0.0

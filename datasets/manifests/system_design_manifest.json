@@ -1,0 +1,19 @@
+{
+  "id": "system_design_v1",
+  "domain": "System_Design",
+  "source": "Internal Research Synthetic Corpus",
+  "license": "MIT",
+  "version": "1.0.0",
+  "checksum": "sha256:614d9a24a436d49434c61407abf704d9c0ae02d0ee7f252d6bee520de78e1338",
+  "tokenizer": "byte_bpe_v2",
+  "documents": 20,
+  "tokens": 2432,
+  "created": "2026-07-23 00:32:10",
+  "average_sequence_length": 119.6,
+  "vocabulary_coverage_pct": 13.15,
+  "duplicate_percentage": 47.5,
+  "language_distribution": {
+    "en": 0.6,
+    "code": 0.4
+  }
+}

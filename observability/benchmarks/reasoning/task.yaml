@@ -1,0 +1,6 @@
+category: reasoning
+description: Automated research evaluation benchmark suite for reasoning
+tasks:
+- id: reasoning_task_01
+  name: Reasoning Verification Suite 1
+version: 1.0.0

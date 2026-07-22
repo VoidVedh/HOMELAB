@@ -1,0 +1,6 @@
+category: planning
+description: Automated research evaluation benchmark suite for planning
+tasks:
+- id: planning_task_01
+  name: Planning Verification Suite 1
+version: 1.0.0

@@ -1,0 +1,6 @@
+category: coding
+description: Automated research evaluation benchmark suite for coding
+tasks:
+- id: coding_task_01
+  name: Coding Verification Suite 1
+version: 1.0.0

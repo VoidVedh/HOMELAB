@@ -1,0 +1,19 @@
+{
+  "id": "mathematics_v1",
+  "domain": "Mathematics",
+  "source": "Internal Research Synthetic Corpus",
+  "license": "MIT",
+  "version": "1.0.0",
+  "checksum": "sha256:2339fad218071bcd2770d21ac9d497e11f33b2ee864ad4356b738bb5bcd2feb5",
+  "tokenizer": "byte_bpe_v2",
+  "documents": 20,
+  "tokens": 2932,
+  "created": "2026-07-23 00:32:10",
+  "average_sequence_length": 144.6,
+  "vocabulary_coverage_pct": 12.41,
+  "duplicate_percentage": 71.25,
+  "language_distribution": {
+    "en": 0.6,
+    "code": 0.4
+  }
+}

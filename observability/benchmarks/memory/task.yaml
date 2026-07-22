@@ -1,0 +1,6 @@
+category: memory
+description: Automated research evaluation benchmark suite for memory
+tasks:
+- id: memory_task_01
+  name: Memory Verification Suite 1
+version: 1.0.0

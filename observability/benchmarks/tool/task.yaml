@@ -1,0 +1,6 @@
+category: tool
+description: Automated research evaluation benchmark suite for tool
+tasks:
+- id: tool_task_01
+  name: Tool Verification Suite 1
+version: 1.0.0

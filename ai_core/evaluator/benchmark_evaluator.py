@@ -62,8 +62,8 @@ class ModelIntelligenceEvaluator:
         return {
             "baseline_tok_sec": baseline_metrics["tokens_per_sec"],
             "kv_cached_tok_sec": cached_metrics["tokens_per_sec"],
-            "baseline_ms_tok": baseline_metrics["ms_per_token"],
-            "kv_cached_ms_tok": cached_metrics["ms_per_token"],
+            "baseline_ms_tok": baseline_metrics.get("avg_latency_per_tok_ms", baseline_metrics.get("ms_per_token", 0.0)),
+            "kv_cached_ms_tok": cached_metrics.get("avg_latency_per_tok_ms", cached_metrics.get("ms_per_token", 0.0)),
             "speedup_multiplier": round(speedup_ratio, 2)
         }
 

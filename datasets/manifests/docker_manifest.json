@@ -1,0 +1,19 @@
+{
+  "id": "docker_v1",
+  "domain": "Docker",
+  "source": "Internal Research Synthetic Corpus",
+  "license": "MIT",
+  "version": "1.0.0",
+  "checksum": "sha256:10e81cd2463969a2aa66f66e4fd7489f3ba9acfc16e0a8ba6e80dadf0150874b",
+  "tokenizer": "byte_bpe_v2",
+  "documents": 20,
+  "tokens": 2412,
+  "created": "2026-07-23 00:32:09",
+  "average_sequence_length": 118.6,
+  "vocabulary_coverage_pct": 13.7,
+  "duplicate_percentage": 70.0,
+  "language_distribution": {
+    "en": 0.6,
+    "code": 0.4
+  }
+}

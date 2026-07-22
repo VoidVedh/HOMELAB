@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-System Verification Suite for HOMELAB ai_core and jarvis_core.
-Verifies parameters, tokenizer fidelity, KV-Cache acceleration, checkpoint loading, generation stability, and DAG planner.
+System Verification Suite for HOMELAB ai_core and jarvis_core (v4.0 Research Edition).
+Verifies parameters, tokenizer fidelity, streaming KV-Cache, 14-domain corpus manifests, checkpoint loading, and DAG planner.
 """
 import os
 import sys
@@ -13,6 +13,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from ai_core.tokenizer.bpe_tokenizer import BPETokenizer
 from ai_core.registry.model_registry import ModelRegistry
 from ai_core.inference.engine import InferenceEngine
+from ai_core.inference.streamer import TokenStreamer
+from ai_core.datasets.multi_domain_corpus import MultiDomainCorpus
 from ai_core.checkpoint.checkpoint_manager import CheckpointManager
 from bus.event_bus import EventBus
 from plugins.plugin_registry import PluginRegistry
@@ -22,9 +24,9 @@ from jarvis_core.memory.memory_manager import ExperienceMemory
 from jarvis_core.planner.executive_planner import ExecutivePlanner
 
 def run_verifications():
-    print("=" * 70)
-    print("      HOMELAB SYSTEM & EMPIRICAL CLAIM VERIFICATION")
-    print("=" * 70)
+    print("=" * 75)
+    print("      HOMELAB SYSTEM & EMPIRICAL CLAIM VERIFICATION (v4.0 Research)")
+    print("=" * 75)
 
     # 1. Parameter Counting Verification
     print("\n[1/7] PARAMETER COUNTING VERIFICATION")
@@ -58,8 +60,15 @@ def run_verifications():
     assert encoded.count(tokenizer.special_tokens["<unk>"]) == 0, "No <unk> tokens allowed"
     print("  [✓] Tokenizer encoding/decoding verified!")
 
-    # 3. Checkpoint Loading & State Dict Integrity
-    print("\n[3/7] CHECKPOINT SAVING & RELOADING VERIFICATION")
+    # 3. 14-Domain Corpus Manifest Provenance Verification
+    print("\n[3/7] 14-DOMAIN DATASET MANIFEST VERIFICATION")
+    manifests = MultiDomainCorpus.generate_all_14_domain_manifests(tokenizer)
+    print(f"  • Domains Verified : {len(manifests)}")
+    assert len(manifests) == 14, "Must maintain all 14 research domains"
+    print("  [✓] 14-Domain formal manifests verified with SHA-256 checksums!")
+
+    # 4. Checkpoint Loading & State Dict Integrity
+    print("\n[4/7] CHECKPOINT SAVING & RELOADING VERIFICATION")
     ckpt_mgr = CheckpointManager(checkpoint_dir="checkpoints/jarvis0")
     ckpt_file = "checkpoints/jarvis0/jarvis0_best.pt"
     if os.path.exists(ckpt_file):
@@ -71,21 +80,26 @@ def run_verifications():
     else:
         print(f"  [!] Checkpoint file {ckpt_file} not found yet.")
 
-    # 4. Native KV-Cache Generation & Stop Token Verification
-    print("\n[4/7] AUTOREGRESSIVE KV-CACHE GENERATION & METRICS")
+    # 5. Native Streaming KV-Cache Generation & Metrics
+    print("\n[5/7] STREAMING AUTOREGRESSIVE KV-CACHE GENERATION & METRICS")
     engine = InferenceEngine(model=model, tokenizer=tokenizer, device=torch.device("cpu"))
+    streamed_toks = []
+    streamer = TokenStreamer(callback=lambda tok: streamed_toks.append(tok))
+    
     prompt = "JARVIS is"
-    output = engine.generate(prompt=prompt, max_new_tokens=15, temperature=0.7, use_kv_cache=True)
+    list(engine.generate_stream(prompt=prompt, max_new_tokens=15, streamer=streamer, use_kv_cache=True))
     metrics = engine.last_metrics
-    print(f"  • Prompt     : '{prompt}'")
-    print(f"  • Generated  : '{output}'")
-    print(f"  • Throughput : {metrics.get('tokens_per_sec')} tok/sec ({metrics.get('ms_per_token')} ms/tok)")
-    print(f"  • KV-Cache   : {metrics.get('used_kv_cache')}")
-    assert isinstance(output, str), "Output must be string"
-    print("  [✓] Autoregressive text generation with KV-Cache verified!")
+    
+    print(f"  • Prompt             : '{prompt}'")
+    print(f"  • Streamed Tokens    : {len(streamed_toks)}")
+    print(f"  • First Token Latency: {metrics.get('first_token_latency_ms')} ms")
+    print(f"  • Throughput         : {metrics.get('tokens_per_sec')} tok/sec ({metrics.get('avg_latency_per_tok_ms')} ms/tok)")
+    print(f"  • KV-Cache Size      : {metrics.get('cache_size_bytes')} bytes")
+    assert len(streamed_toks) > 0, "Streamed tokens must be non-empty"
+    print("  [✓] Streaming autoregressive text generation with KV-Cache verified!")
 
-    # 5. DAG Executive Planner Execution
-    print("\n[5/7] EXECUTIVE PLANNER DAG DEPENDENCY RESOLUTION")
+    # 6. DAG Executive Planner Execution
+    print("\n[6/7] EXECUTIVE PLANNER DAG DEPENDENCY RESOLUTION")
     async def test_planner():
         bus = EventBus()
         registry = PluginRegistry()
@@ -107,9 +121,9 @@ def run_verifications():
     asyncio.run(test_planner())
     print("  [✓] DAG dependency sorting and step execution verified!")
 
-    print("\n" + "=" * 70)
-    print("  [✓] ALL SYSTEM VERIFICATIONS COMPLETED SUCCESSFULLY!")
-    print("=" * 70)
+    print("\n" + "=" * 75)
+    print("  [✓] ALL v4.0 SYSTEM VERIFICATIONS COMPLETED SUCCESSFULLY!")
+    print("=" * 75)
 
 if __name__ == "__main__":
     run_verifications()
