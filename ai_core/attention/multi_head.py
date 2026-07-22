@@ -2,10 +2,11 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from typing import Optional, Tuple
 from ai_core.embeddings.positional import apply_rotary_emb
 
 class CausalSelfAttention(nn.Module):
-    """Causal Multi-Head Self-Attention with RoPE."""
+    """Causal Multi-Head Self-Attention with RoPE and KV-Cache support."""
     def __init__(self, d_model: int, n_heads: int, max_seq_len: int = 512, dropout: float = 0.1):
         super().__init__()
         assert d_model % n_heads == 0, "d_model must be divisible by n_heads"
@@ -21,10 +22,15 @@ class CausalSelfAttention(nn.Module):
         self.attn_dropout = nn.Dropout(dropout)
         self.resid_dropout = nn.Dropout(dropout)
 
-    def forward(self, x: torch.Tensor, freqs_cis: torch.Tensor = None) -> torch.Tensor:
+    def forward(
+        self,
+        x: torch.Tensor,
+        freqs_cis: Optional[torch.Tensor] = None,
+        kv_cache: Optional[Tuple[torch.Tensor, torch.Tensor]] = None
+    ) -> Tuple[torch.Tensor, Optional[Tuple[torch.Tensor, torch.Tensor]]]:
         batch_size, seq_len, _ = x.shape
 
-        # Projections
+        # Projections: (batch, seq_len, n_heads, head_dim)
         q = self.q_proj(x).view(batch_size, seq_len, self.n_heads, self.head_dim)
         k = self.k_proj(x).view(batch_size, seq_len, self.n_heads, self.head_dim)
         v = self.v_proj(x).view(batch_size, seq_len, self.n_heads, self.head_dim)
@@ -37,16 +43,35 @@ class CausalSelfAttention(nn.Module):
         k = k.transpose(1, 2)
         v = v.transpose(1, 2)
 
-        # Scaled dot-product attention with causal mask
-        scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.head_dim)
-        
-        causal_mask = torch.triu(torch.ones(seq_len, seq_len, device=x.device), diagonal=1).bool()
-        scores = scores.masked_fill(causal_mask, float("-inf"))
-        
-        attn_weights = F.softmax(scores, dim=-1)
-        attn_weights = self.attn_dropout(attn_weights)
+        # Handle KV Cache concatenation for incremental autoregressive generation
+        if kv_cache is not None:
+            past_k, past_v = kv_cache
+            k = torch.cat([past_k, k], dim=2)
+            v = torch.cat([past_v, v], dim=2)
 
-        context = torch.matmul(attn_weights, v)  # (batch, n_heads, seq_len, head_dim)
+        new_kv_cache = (k, v)
+        total_len = k.size(2)
+
+        # Fast Scaled Dot-Product Attention
+        if seq_len == 1 and kv_cache is not None:
+            # Single token decoding step using cached K/V: no causal mask required
+            scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.head_dim)
+            attn_weights = F.softmax(scores, dim=-1)
+            attn_weights = self.attn_dropout(attn_weights)
+            context = torch.matmul(attn_weights, v)
+        else:
+            # Full sequence forward pass (training / prompt encoding)
+            scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.head_dim)
+            if seq_len > 1:
+                causal_mask = torch.triu(
+                    torch.ones(seq_len, total_len, device=x.device), diagonal=1 + (total_len - seq_len)
+                ).bool()
+                scores = scores.masked_fill(causal_mask, float("-inf"))
+            
+            attn_weights = F.softmax(scores, dim=-1)
+            attn_weights = self.attn_dropout(attn_weights)
+            context = torch.matmul(attn_weights, v)
+
         context = context.transpose(1, 2).contiguous().view(batch_size, seq_len, self.d_model)
-
-        return self.resid_dropout(self.out_proj(context))
+        output = self.resid_dropout(self.out_proj(context))
+        return output, new_kv_cache

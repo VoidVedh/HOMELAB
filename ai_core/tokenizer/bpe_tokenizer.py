@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from typing import Dict, List, Tuple
 
 SPECIAL_TOKENS = {
@@ -17,6 +18,13 @@ class BPETokenizer:
         self.special_tokens = dict(SPECIAL_TOKENS)
         self.vocab = vocab or dict(self.special_tokens)
         self.merges = merges or []
+        
+        # Ensure base 256 ASCII/byte characters are in vocab
+        for i in range(256):
+            ch = chr(i)
+            if ch not in self.vocab:
+                self.vocab[ch] = len(self.vocab)
+                
         self.inverse_vocab = {v: k for k, v in self.vocab.items()}
 
     def _get_stats(self, words_counts: Dict[Tuple[str, ...], int]) -> Dict[Tuple[str, str], int]:
@@ -39,26 +47,22 @@ class BPETokenizer:
                 i += 1
         return tuple(new_word)
 
+    def _tokenize_raw_text(self, text: str) -> List[str]:
+        # Split into words keeping whitespace structure intact
+        return re.findall(r'\s+|\S+', text)
+
     def train(self, text: str, vocab_size: int = 4096):
         if vocab_size < len(self.special_tokens) + 256:
             vocab_size = len(self.special_tokens) + 256
 
-        # Initialize base byte characters
-        base_bytes = [chr(i) for i in range(256)]
-        for b in base_bytes:
-            if b not in self.vocab:
-                idx = len(self.vocab)
-                self.vocab[b] = idx
-
-        # Word frequency counting
-        raw_words = text.split()
+        raw_chunks = self._tokenize_raw_text(text)
         words_counts = {}
-        for w in raw_words:
-            tup = tuple(list(w))
+        for chunk in raw_chunks:
+            tup = tuple(list(chunk))
             words_counts[tup] = words_counts.get(tup, 0) + 1
 
         num_merges = vocab_size - len(self.vocab)
-        for _ in range(num_merges):
+        for _ in range(max(0, num_merges)):
             stats = self._get_stats(words_counts)
             if not stats:
                 break
@@ -87,15 +91,22 @@ class BPETokenizer:
         if add_special_tokens:
             tokens.append(self.special_tokens["<bos>"])
 
-        raw_words = text.split(" ")
-        for i, word_str in enumerate(raw_words):
-            if i > 0:
-                word_str = " " + word_str
-            word = tuple(list(word_str))
+        raw_chunks = self._tokenize_raw_text(text)
+        for chunk in raw_chunks:
+            word = tuple(list(chunk))
             for pair in self.merges:
                 word = self._merge_word(word, pair)
             for char_tok in word:
-                tokens.append(self.vocab.get(char_tok, self.special_tokens["<unk>"]))
+                if char_tok in self.vocab:
+                    tokens.append(self.vocab[char_tok])
+                else:
+                    # Character fallback
+                    for sub_c in char_tok:
+                        if sub_c in self.vocab:
+                            tokens.append(self.vocab[sub_c])
+                        else:
+                            fallback_ch = chr(ord(sub_c) % 256)
+                            tokens.append(self.vocab.get(fallback_ch, self.special_tokens["<unk>"]))
 
         if add_special_tokens:
             tokens.append(self.special_tokens["<eos>"])

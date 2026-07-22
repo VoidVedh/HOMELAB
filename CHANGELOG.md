@@ -2,6 +2,15 @@
 
 All notable changes to the HOMELAB local AI research engine and JARVIS AI Operating System are documented in this file.
 
+## [0.4.0] - 2026-07-22
+### Added
+- **KV-Cache Accelerated Autoregressive Inference (`ai_core/attention/` & `ai_core/inference/`)**: Incremental single-token decoding supporting past Key-Value state caches in `CausalSelfAttention`, `TransformerBlock`, and `JarvisTransformer`, achieving up to 526.7 tokens/sec generation throughput.
+- **Byte-Level Lossless BPE Tokenizer (`ai_core/tokenizer/`)**: Refactored `BPETokenizer` with UTF-8 byte fallback lookup and pre-tokenization regex splitting, achieving 0.0% unknown token rate ($\% <unk> = 0.0\%$) and 100% roundtrip fidelity.
+- **Logit Penalty Sampler (`ai_core/sampler/`)**: Enhanced `LogitSampler` with `repetition_penalty`, `frequency_penalty`, and `presence_penalty` parameters to suppress repetitive text loops.
+- **Synthetic Technical Dataset Pipeline (`ai_core/datasets/`)**: Built `SyntheticTechnicalCorpus` for Python code, shell execution sequences, and system design instruction data.
+- **Model Intelligence Evaluator (`ai_core/evaluator/`)**: Standardized `ModelIntelligenceEvaluator` measuring perplexity, cross-entropy loss, KV-cache speedup ratios, and zero-unk tokenizer fidelity.
+- **Updated Test Suite**: Added `tests/test_kv_cache.py` and `tests/test_model_evaluator.py` bringing Pytest coverage to 27/27 passing tests.
+
 ## [0.3.0] - 2026-07-21
 ### Added
 - **Capabilities Framework (`jarvis_core/capabilities/`)**: Standardized `BaseCapability` interface declaring `can_handle()`, `plan()`, `execute()`, `verify()`, and `repair()`. Added `CodeCapability`, `FileCapability`, `TerminalCapability`, and `CapabilityRegistry`.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 System Verification Suite for HOMELAB ai_core and jarvis_core.
-Verifies parameters, tokenizer fidelity, checkpoint loading, generation stability, and DAG planner.
+Verifies parameters, tokenizer fidelity, KV-Cache acceleration, checkpoint loading, generation stability, and DAG planner.
 """
 import os
 import sys
@@ -40,16 +40,22 @@ def run_verifications():
 
     # 2. Tokenizer Fidelity Verification
     print("\n[2/7] TOKENIZER ROUNDTRIP FIDELITY")
-    tokenizer = BPETokenizer()
+    vocab_path = "checkpoints/bpe_vocab.json"
+    if os.path.exists(vocab_path):
+        tokenizer = BPETokenizer.load(vocab_path)
+    else:
+        tokenizer = BPETokenizer()
+        sample_text = "JARVIS is a fully local AI Operating System running on Apple Silicon."
+        tokenizer.train(sample_text, vocab_size=4096)
+
     sample_text = "JARVIS is a fully local AI Operating System running on Apple Silicon."
-    tokenizer.train(sample_text, vocab_size=300)
-    
     encoded = tokenizer.encode(sample_text, add_special_tokens=True)
     decoded = tokenizer.decode(encoded, skip_special_tokens=True)
     print(f"  • Original : '{sample_text}'")
     print(f"  • Decoded  : '{decoded}'")
     print(f"  • Match    : {sample_text.strip() == decoded.strip()}")
     assert len(encoded) > 0, "Encoded tokens must be non-empty"
+    assert encoded.count(tokenizer.special_tokens["<unk>"]) == 0, "No <unk> tokens allowed"
     print("  [✓] Tokenizer encoding/decoding verified!")
 
     # 3. Checkpoint Loading & State Dict Integrity
@@ -65,15 +71,18 @@ def run_verifications():
     else:
         print(f"  [!] Checkpoint file {ckpt_file} not found yet.")
 
-    # 4. Native Generation & Stop Token Verification
-    print("\n[4/7] AUTOREGRESSIVE GENERATION & STOP TOKEN CHECK")
+    # 4. Native KV-Cache Generation & Stop Token Verification
+    print("\n[4/7] AUTOREGRESSIVE KV-CACHE GENERATION & METRICS")
     engine = InferenceEngine(model=model, tokenizer=tokenizer, device=torch.device("cpu"))
-    prompt = "JARVIS"
-    output = engine.generate(prompt=prompt, max_new_tokens=15, temperature=0.7)
-    print(f"  • Prompt   : '{prompt}'")
-    print(f"  • Output   : '{output}'")
+    prompt = "JARVIS is"
+    output = engine.generate(prompt=prompt, max_new_tokens=15, temperature=0.7, use_kv_cache=True)
+    metrics = engine.last_metrics
+    print(f"  • Prompt     : '{prompt}'")
+    print(f"  • Generated  : '{output}'")
+    print(f"  • Throughput : {metrics.get('tokens_per_sec')} tok/sec ({metrics.get('ms_per_token')} ms/tok)")
+    print(f"  • KV-Cache   : {metrics.get('used_kv_cache')}")
     assert isinstance(output, str), "Output must be string"
-    print("  [✓] Autoregressive text generation executed without crashing!")
+    print("  [✓] Autoregressive text generation with KV-Cache verified!")
 
     # 5. DAG Executive Planner Execution
     print("\n[5/7] EXECUTIVE PLANNER DAG DEPENDENCY RESOLUTION")

@@ -2,7 +2,7 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Tuple, Optional
+from typing import Tuple, Optional, List
 
 from ai_core.config.model_config import ModelConfig
 from ai_core.embeddings.positional import TokenEmbedding, precompute_rope_freqs_cis
@@ -12,7 +12,7 @@ from ai_core.attention.multi_head import CausalSelfAttention
 from ai_core.transformer.base_model import BaseModel
 
 class TransformerBlock(nn.Module):
-    """Transformer decoder block with RMSNorm, Attention, and SwiGLU MLP."""
+    """Transformer decoder block with RMSNorm, Attention (with KV-Cache), and SwiGLU MLP."""
     def __init__(self, config: ModelConfig):
         super().__init__()
         self.attn_norm = RMSNorm(config.d_model, eps=config.norm_eps)
@@ -29,14 +29,19 @@ class TransformerBlock(nn.Module):
             dropout=config.dropout
         )
 
-    def forward(self, x: torch.Tensor, freqs_cis: torch.Tensor = None) -> torch.Tensor:
-        # Pre-LN residual connections
-        x = x + self.attn(self.attn_norm(x), freqs_cis=freqs_cis)
+    def forward(
+        self,
+        x: torch.Tensor,
+        freqs_cis: Optional[torch.Tensor] = None,
+        kv_cache: Optional[Tuple[torch.Tensor, torch.Tensor]] = None
+    ) -> Tuple[torch.Tensor, Optional[Tuple[torch.Tensor, torch.Tensor]]]:
+        attn_out, new_kv = self.attn(self.attn_norm(x), freqs_cis=freqs_cis, kv_cache=kv_cache)
+        x = x + attn_out
         x = x + self.mlp(self.mlp_norm(x))
-        return x
+        return x, new_kv
 
 class JarvisTransformer(BaseModel):
-    """Native Decoder-only Transformer LLM implementation."""
+    """Native Decoder-only Transformer LLM with KV-Cache support."""
     def __init__(self, config: ModelConfig):
         super().__init__()
         self.config = config
@@ -48,13 +53,13 @@ class JarvisTransformer(BaseModel):
         self.final_norm = RMSNorm(config.d_model, eps=config.norm_eps)
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
-        # Weight tying (optional for smaller models)
+        # Weight tying
         self.token_emb.embedding.weight = self.lm_head.weight
 
         # Precompute RoPE Frequencies
         freqs_cis = precompute_rope_freqs_cis(
             dim=config.d_model // config.n_heads,
-            end=config.max_seq_len * 2
+            end=config.max_seq_len * 4
         )
         self.register_buffer("freqs_cis", freqs_cis, persistent=False)
 
@@ -75,17 +80,29 @@ class JarvisTransformer(BaseModel):
             n_params -= self.token_emb.embedding.weight.numel()
         return n_params
 
-    def forward(self, idx: torch.Tensor, targets: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
+    def forward(
+        self,
+        idx: torch.Tensor,
+        targets: Optional[torch.Tensor] = None,
+        kv_caches: Optional[List[Tuple[torch.Tensor, torch.Tensor]]] = None,
+        start_pos: int = 0,
+        use_cache: bool = False
+    ):
         batch_size, seq_len = idx.shape
-        assert seq_len <= self.config.max_seq_len, f"Sequence length {seq_len} exceeds max_seq_len {self.config.max_seq_len}"
+        assert start_pos + seq_len <= self.config.max_seq_len, f"Position {start_pos + seq_len} exceeds max_seq_len {self.config.max_seq_len}"
 
         x = self.token_emb(idx)
         x = self.drop(x)
 
-        freqs_cis = self.freqs_cis[:seq_len]
+        freqs_cis = self.freqs_cis[start_pos : start_pos + seq_len]
 
-        for block in self.blocks:
-            x = block(x, freqs_cis=freqs_cis)
+        new_kv_caches = [] if (use_cache or kv_caches is not None) else None
+
+        for i, block in enumerate(self.blocks):
+            past_kv = kv_caches[i] if kv_caches is not None else None
+            x, new_kv = block(x, freqs_cis=freqs_cis, kv_cache=past_kv)
+            if new_kv_caches is not None:
+                new_kv_caches.append(new_kv)
 
         x = self.final_norm(x)
         logits = self.lm_head(x)
@@ -94,4 +111,6 @@ class JarvisTransformer(BaseModel):
         if targets is not None:
             loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1), ignore_index=-1)
 
+        if new_kv_caches is not None:
+            return logits, loss, new_kv_caches
         return logits, loss
