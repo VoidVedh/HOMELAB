@@ -2,6 +2,16 @@
 
 All notable changes to the HOMELAB local AI research engine and JARVIS AI Operating System are documented in this file.
 
+## [0.5.0] - 2026-07-22
+### Added
+- **14-Domain Technical Corpus & Provenance Tracker (`ai_core/datasets/multi_domain_corpus.py`)**: Built synthetic corpus generator and SHA-256 manifest builders for all 14 research domains (*Programming, Linux, Networking, Cybersecurity, AWS, Docker, Terraform, Kubernetes, SQL, Algorithms, Mathematics, Reasoning, Technical Documentation, System Design*) saved under `datasets/manifests/`.
+- **Server-Sent Events (SSE) Streaming Inference (`ai_core/inference/streamer.py` & `backend/main.py`)**: Implemented `TokenStreamer` and `POST /api/v1/infer/stream` endpoint for token-by-token real-time streaming with first-token latency and memory profiling.
+- **7-Category Domain Benchmark Harness (`ai_core/evaluator/domain_benchmarks.py`)**: Structured file-backed task evaluation harness for *model, coding, reasoning, planning, tool, rag, and memory* categories.
+- **Automated Model Regression Framework (`ai_core/evaluator/regression_framework.py`)**: Automated regression detector comparing current benchmark metrics against historical baseline runs and flagging degradation $>5.0\%$.
+- **CI/CD Quality Gate Script (`scripts/ci_regression_gate.py`)**: Automated build gate script failing CI pipelines upon performance regressions.
+- **Structured JSON Training Dashboard (`ai_core/trainer/trainer.py`)**: Persisted structured training logs under `training_logs/run_XXX.json` tracking loss, perplexity, lr, grad_norm, and tokens/sec.
+- **Updated Test Suite**: Added `tests/test_multi_domain_dataset.py`, `tests/test_streaming_inference.py`, `tests/test_domain_benchmarks.py`, and `tests/test_ci_regression_gate.py` bringing Pytest coverage to 31/31 passing tests.
+
 ## [0.4.0] - 2026-07-22
 ### Added
 - **KV-Cache Accelerated Autoregressive Inference (`ai_core/attention/` & `ai_core/inference/`)**: Incremental single-token decoding supporting past Key-Value state caches in `CausalSelfAttention`, `TransformerBlock`, and `JarvisTransformer`, achieving up to 526.7 tokens/sec generation throughput.
