@@ -2,6 +2,14 @@
 
 All notable changes to the HOMELAB local AI research engine and JARVIS AI Operating System are documented in this file.
 
+## [0.12.0] - 2026-07-26
+### Added
+- **Inter-Agent Message Bus & Protocol (`jarvis_core/agents/protocol.py`)**: Built `AgentMessage`, `AgentTask`, `AgentResult`, `AgentPriority`, `ConversationState`, and `MessageBus` supporting pub-sub routing, handoffs, retry loops, and cancellations with **483,059 messages/sec throughput**.
+- **BaseAgent Interface & Specialized Agent Team (`jarvis_core/agents/`)**: Built `BaseAgent` and 9 specialized agents: `PlannerAgent` (hierarchical DAG task decomposition), `CodingAgent` (code synthesis & sandbox execution), `ReviewAgent` (structured code critique), `TestingAgent` (pytest verification), `SecurityAgent` (vulnerability & injection audit), `ResearchAgent` (Hybrid RAG integration), `MemoryAgent` (working & task memory store), `DocumentationAgent` (docs maintenance), and `DeploymentAgent` (process execution).
+- **Hierarchical Agent Orchestrator (`jarvis_core/agents/orchestrator.py`)**: Built `AgentOrchestrator` managing DAG subtask dispatching, dependency graph resolution, conflict management, metrics tracking, and automated multi-attempt repair.
+- **REST API Extensions (`backend/main.py`)**: Added `/api/v1/agent/run`, `/api/v1/agent/task`, `/api/v1/agent/status`, `/api/v1/agent/history`, and `/api/v1/agent/metrics` endpoints.
+- **Benchmark Suite & Test Coverage (`scripts/benchmark_v120_agents.py` & `tests/test_agents.py`)**: Created benchmark runner measuring pub-sub throughput and 4-agent workflow latency (**25.92 ms**), bringing Pytest coverage to **62/62 passing tests**.
+
 ## [0.11.0] - 2026-07-26
 ### Added
 - **Okapi BM25 Sparse Keyword Scorer (`jarvis_core/rag/bm25.py`)**: Built `BM25Scorer` with $k_1=1.5, b=0.75$ term frequency scaling and inverse document frequency (IDF) calculation for exact symbol search.

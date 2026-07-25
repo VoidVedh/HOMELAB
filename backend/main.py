@@ -114,3 +114,52 @@ def get_benchmark_report():
 def get_memory(limit: int = 10):
     experiences = runtime.memory.get_experiences(limit=limit)
     return {"count": len(experiences), "experiences": experiences}
+
+# Agent Framework REST API Extensions
+from jarvis_core.agents.orchestrator import AgentOrchestrator
+from jarvis_core.agents.protocol import AgentTask, AgentPriority
+
+agent_orchestrator = AgentOrchestrator()
+
+class AgentGoalRequest(BaseModel):
+    goal: str
+
+class AgentTaskRequest(BaseModel):
+    task_id: str
+    goal: str
+    assigned_agent: Optional[str] = "CodingAgent"
+    payload: Optional[Dict[str, Any]] = None
+
+@app.post("/api/v1/agent/run")
+async def run_agent_goal(req: AgentGoalRequest):
+    if not req.goal.strip():
+        raise HTTPException(status_code=400, detail="Goal cannot be empty.")
+    res = await agent_orchestrator.run_goal(req.goal)
+    return res
+
+@app.post("/api/v1/agent/task")
+async def execute_agent_task(req: AgentTaskRequest):
+    task = AgentTask(
+        task_id=req.task_id,
+        goal=req.goal,
+        assigned_agent=req.assigned_agent or "CodingAgent",
+        payload=req.payload or {}
+    )
+    res = await agent_orchestrator.execute_task(task)
+    return res.__dict__
+
+@app.get("/api/v1/agent/status")
+def get_agent_status():
+    return {
+        "agents_registered": list(agent_orchestrator.agents.keys()),
+        "active_metrics": agent_orchestrator.metrics
+    }
+
+@app.get("/api/v1/agent/history")
+def get_agent_history(limit: int = 10):
+    history = [r.__dict__ for r in agent_orchestrator.execution_history[-limit:]]
+    return {"count": len(history), "history": history}
+
+@app.get("/api/v1/agent/metrics")
+def get_agent_metrics():
+    return agent_orchestrator.metrics
