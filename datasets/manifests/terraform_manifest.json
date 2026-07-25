@@ -1,19 +1,20 @@
 {
-  "id": "terraform_v1",
+  "id": "terraform_v2",
   "domain": "Terraform",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:65f6fd9e0ffea51fa14b6bd56fec4820b58b242b0911a0110bb5a7f74ccd65e7",
+  "version": "2.0.0",
+  "checksum": "sha256:f5149be24bcc9d90078b2cf74ec9d942d6b12020c967ff75c66a361e236bcc64",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 1932,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 94.6,
-  "vocabulary_coverage_pct": 12.59,
-  "duplicate_percentage": 76.67,
+  "tokens": 712,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 33.6,
+  "vocabulary_coverage_pct": 18.28,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

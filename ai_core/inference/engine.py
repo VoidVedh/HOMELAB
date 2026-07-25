@@ -176,8 +176,27 @@ class InferenceEngine:
         top_p: float = 0.9,
         repetition_penalty: float = 1.1,
         stop_tokens: Optional[List[int]] = None,
-        use_kv_cache: bool = True
+        use_kv_cache: bool = True,
+        draft_model: Optional[BaseModel] = None,
+        k_draft: int = 4
     ) -> str:
+        if draft_model is not None:
+            from ai_core.inference.speculative import SpeculativeDecoder
+            spec_decoder = SpeculativeDecoder(
+                target_model=self.model,
+                draft_model=draft_model,
+                tokenizer=self.tokenizer,
+                device=self.device
+            )
+            res = spec_decoder.generate_speculative(
+                prompt=prompt,
+                max_new_tokens=max_new_tokens,
+                k_draft=k_draft,
+                temperature=temperature
+            )
+            self.last_metrics = res
+            return res["text"]
+
         streamer = TokenStreamer()
         list(self.generate_stream(
             prompt=prompt,

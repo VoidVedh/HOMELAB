@@ -1,19 +1,20 @@
 {
-  "id": "programming_v1",
+  "id": "programming_v2",
   "domain": "Programming",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:6a39a5606782b32bd5cd87031fa6dddf970727e6d80ea67bd9d33bb76c4c8d99",
+  "version": "2.0.0",
+  "checksum": "sha256:3f48ae66875317b060271e2e71138404f1ae4638a3f4f659eac5c78a0e57f3ed",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 3092,
-  "created": "2026-07-23 00:41:33",
-  "average_sequence_length": 152.6,
-  "vocabulary_coverage_pct": 15.74,
-  "duplicate_percentage": 72.0,
+  "tokens": 1082,
+  "created": "2026-07-26 01:27:25",
+  "average_sequence_length": 52.1,
+  "vocabulary_coverage_pct": 23.95,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

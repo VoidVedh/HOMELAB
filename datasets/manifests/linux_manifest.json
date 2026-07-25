@@ -1,19 +1,20 @@
 {
-  "id": "linux_v1",
+  "id": "linux_v2",
   "domain": "Linux",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:f2f15be50779347287ca0c1aa96fad817aa749ca4dec2f440473d7b7f58285dc",
+  "version": "2.0.0",
+  "checksum": "sha256:54061233b6165736b6eff8e6a6463b7a59e1c7d294686dc9bd8dd27b285b968f",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 1802,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 88.1,
-  "vocabulary_coverage_pct": 12.96,
-  "duplicate_percentage": 60.0,
+  "tokens": 702,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 33.1,
+  "vocabulary_coverage_pct": 21.64,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

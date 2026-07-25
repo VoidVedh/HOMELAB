@@ -1,19 +1,20 @@
 {
-  "id": "algorithms_v1",
+  "id": "algorithms_v2",
   "domain": "Algorithms",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:00804cd7a564a9560cb1ac821ad4de0e9e4887739fcd4be833e5527a59d333f0",
+  "version": "2.0.0",
+  "checksum": "sha256:f63d3d06b23c9383d825fb9e9110eb9fe4f8111cd4836c509e3287b5e8e9f51f",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 4272,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 211.6,
-  "vocabulary_coverage_pct": 10.37,
-  "duplicate_percentage": 83.12,
+  "tokens": 882,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 42.1,
+  "vocabulary_coverage_pct": 19.03,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

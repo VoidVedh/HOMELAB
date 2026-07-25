@@ -1,19 +1,20 @@
 {
-  "id": "docker_v1",
+  "id": "docker_v2",
   "domain": "Docker",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:10e81cd2463969a2aa66f66e4fd7489f3ba9acfc16e0a8ba6e80dadf0150874b",
+  "version": "2.0.0",
+  "checksum": "sha256:7114c6c300dde1e960f2f0fc5b31314db691ffc1786cc3fdece841455e1acc16",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 2412,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 118.6,
-  "vocabulary_coverage_pct": 13.7,
-  "duplicate_percentage": 70.0,
+  "tokens": 718,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 33.9,
+  "vocabulary_coverage_pct": 22.39,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

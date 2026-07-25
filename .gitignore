@@ -3,5 +3,10 @@ __pycache__/
 *.pyc
 .pytest_cache/
 *.db
-checkpoints/*.pt
+checkpoints/
+training_logs/
+tmp_e2e/
+observability/telemetry/
 *.log
+*.pt
+

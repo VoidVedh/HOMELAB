@@ -1,19 +1,20 @@
 {
-  "id": "networking_v1",
+  "id": "networking_v2",
   "domain": "Networking",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:294debe34c56a4f03e3eec93261d692e05064eb572b74138a360c4e841ab06c7",
+  "version": "2.0.0",
+  "checksum": "sha256:1994632e7c55fdd908ec70c594ea50bd2b5a66c1e3742c7746d9d78707959353",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 1792,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 87.6,
-  "vocabulary_coverage_pct": 14.26,
-  "duplicate_percentage": 54.0,
+  "tokens": 800,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 38.0,
+  "vocabulary_coverage_pct": 23.13,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

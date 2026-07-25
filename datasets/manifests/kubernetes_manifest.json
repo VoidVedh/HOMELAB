@@ -1,19 +1,20 @@
 {
-  "id": "kubernetes_v1",
+  "id": "kubernetes_v2",
   "domain": "Kubernetes",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:826a21c45724e243b25841872f27e910bc297bb6e25eea72deac7b0abfbc8a61",
+  "version": "2.0.0",
+  "checksum": "sha256:a7ff378b25e530d25643d4bc4fbc3204b1f66c7a19dc88c0912bfafa0157a3ff",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 2592,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 127.6,
-  "vocabulary_coverage_pct": 11.85,
-  "duplicate_percentage": 78.67,
+  "tokens": 795,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 37.75,
+  "vocabulary_coverage_pct": 18.66,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

@@ -1,19 +1,20 @@
 {
-  "id": "reasoning_v1",
+  "id": "reasoning_v2",
   "domain": "Reasoning",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:41094425972c09af0de3cf2cc84f71c19a3079f65a82a9eec80f10c3be1c46db",
+  "version": "2.0.0",
+  "checksum": "sha256:b824d14cc374b67000cd941a0ca0750e1801d667ca1383e720910db726582c89",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 2912,
-  "created": "2026-07-23 00:41:33",
-  "average_sequence_length": 143.6,
-  "vocabulary_coverage_pct": 12.59,
-  "duplicate_percentage": 71.25,
+  "tokens": 919,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 43.95,
+  "vocabulary_coverage_pct": 20.52,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

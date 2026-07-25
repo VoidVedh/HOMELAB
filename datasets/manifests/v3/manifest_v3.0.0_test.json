@@ -1,0 +1,44 @@
+{
+  "manifest": {
+    "dataset_version": "3.0.0_test",
+    "created_at": "2026-07-26 01:27:26",
+    "total_raw_samples": 4,
+    "processed_samples": 2,
+    "duplicates_removed": 1,
+    "quality_filtered": 1,
+    "splits": {
+      "train_count": 1,
+      "val_count": 0,
+      "test_count": 1
+    },
+    "manifest_checksum": "1e9eb67ba61078cf46de5b4c62145a65386e132e80811b299ac19226b74dc563"
+  },
+  "samples": [
+    {
+      "sample_id": "sample_300_test_00000",
+      "dataset_version": "3.0.0_test",
+      "domain": "Code",
+      "difficulty": "medium",
+      "quality_score": 0.7,
+      "curriculum_stage": 1,
+      "source": "HOMELAB Internal Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:ba1a531f581d2e6094e978ed6f7aca7a8d92eeb62c6e7ad73ee692f7f18bc772",
+      "token_count": 7,
+      "text": "def add(a, b):\n    return a + b\n"
+    },
+    {
+      "sample_id": "sample_300_test_00003",
+      "dataset_version": "3.0.0_test",
+      "domain": "Reasoning",
+      "difficulty": "medium",
+      "quality_score": 1.0,
+      "curriculum_stage": 1,
+      "source": "HOMELAB Internal Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:16ee8c34ea6ab90a0d429f74f870605877a29e9faa501bb2d02833246f69bdcb",
+      "token_count": 9,
+      "text": "<thought>\nStep 1: Check\n</thought>\n<plan>\nPlan 1\n</plan>"
+    }
+  ]
+}

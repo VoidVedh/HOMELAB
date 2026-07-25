@@ -1,0 +1,135 @@
+{
+  "manifest": {
+    "dataset_version": "3.0.0",
+    "created_at": "2026-07-26 01:19:45",
+    "total_raw_samples": 45,
+    "processed_samples": 9,
+    "duplicates_removed": 36,
+    "quality_filtered": 0,
+    "splits": {
+      "train_count": 7,
+      "val_count": 0,
+      "test_count": 2
+    },
+    "manifest_checksum": "9234eba19eff177f591247a470e8b1c129c2bc6d98a06b8c9dd705bb8535f03d"
+  },
+  "samples": [
+    {
+      "sample_id": "sample_300_00000",
+      "dataset_version": "3.0.0",
+      "domain": "Programming",
+      "difficulty": "easy",
+      "quality_score": 1.0,
+      "curriculum_stage": 1,
+      "source": "HOMELAB Curriculum Stage 1 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:eda7f6638b632aff807e7be6c9c0cd5d33daec53a147fbdeb2a6e9da9fcde818",
+      "token_count": 16,
+      "text": "def add(a: int, b: int) -> int:\n    \"\"\"Return sum of two integers.\"\"\"\n    return a + b\n"
+    },
+    {
+      "sample_id": "sample_300_00001",
+      "dataset_version": "3.0.0",
+      "domain": "Linux",
+      "difficulty": "easy",
+      "quality_score": 0.8,
+      "curriculum_stage": 1,
+      "source": "HOMELAB Curriculum Stage 1 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:924d2b595c7da86db1eceabf534b95a74b3dea51deab0349575e8144ea25cfed",
+      "token_count": 12,
+      "text": "systemctl status jarvis.service\njournalctl -u jarvis --no-pager -n 50\nchmod 755 scripts/deploy.sh\n"
+    },
+    {
+      "sample_id": "sample_300_00002",
+      "dataset_version": "3.0.0",
+      "domain": "SQL",
+      "difficulty": "easy",
+      "quality_score": 0.7,
+      "curriculum_stage": 1,
+      "source": "HOMELAB Curriculum Stage 1 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:3c07fca0d0606c310a88647e84f59df54e8ef976bd797253f7f6f07468ad6a00",
+      "token_count": 16,
+      "text": "SELECT id, name, created_at FROM users WHERE status = 'ACTIVE' ORDER BY id DESC LIMIT 10;\n"
+    },
+    {
+      "sample_id": "sample_300_00003",
+      "dataset_version": "3.0.0",
+      "domain": "APIs",
+      "difficulty": "easy",
+      "quality_score": 0.7,
+      "curriculum_stage": 1,
+      "source": "HOMELAB Curriculum Stage 1 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:35fd7b15c120a4b5e8a883c0b5a5f3bde227e27e8754bc7f874d07c3cb778edd",
+      "token_count": 9,
+      "text": "curl -X POST http://localhost:8080/api/v1/infer -H 'Content-Type: application/json' -d '{\"prompt\":\"hello\"}'\n"
+    },
+    {
+      "sample_id": "sample_300_00015",
+      "dataset_version": "3.0.0",
+      "domain": "Tool_Use",
+      "difficulty": "medium",
+      "quality_score": 0.9,
+      "curriculum_stage": 2,
+      "source": "HOMELAB Curriculum Stage 2 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:dc4429e9ce1bdb6a290e3ae8937e9c67bc789120e7ff1e51630b4081610008ea",
+      "token_count": 7,
+      "text": "<usr>List files in project directory</usr>\n<bot><action>filesystem:list_dir</action><payload>{\"path\": \".\"}</payload></bot>"
+    },
+    {
+      "sample_id": "sample_300_00016",
+      "dataset_version": "3.0.0",
+      "domain": "Planning",
+      "difficulty": "medium",
+      "quality_score": 0.7,
+      "curriculum_stage": 2,
+      "source": "HOMELAB Curriculum Stage 2 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:3e02c10423061cc9d6e523d20d1eaf8803ae6adef8056a7751b3d7ccee8ad50d",
+      "token_count": 15,
+      "text": "<usr>Build dataset and run tests</usr>\n<bot><plan>1. Execute dataset pipeline -> 2. Run pytest test suite</plan></bot>"
+    },
+    {
+      "sample_id": "sample_300_00017",
+      "dataset_version": "3.0.0",
+      "domain": "Terminal_Reasoning",
+      "difficulty": "medium",
+      "quality_score": 0.7,
+      "curriculum_stage": 2,
+      "source": "HOMELAB Curriculum Stage 2 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:d111067d74e64b82c937ff87c6696f5ac9ae7c0bdd564c8c0d432c9fe58286a4",
+      "token_count": 10,
+      "text": "<usr>Check GPU/MPS device status</usr>\n<bot><action>terminal:run_command</action><payload>{\"command\": \"python3 -c 'import torch; print(torch.backends.mps.is_available())'\"}</payload></bot>"
+    },
+    {
+      "sample_id": "sample_300_00030",
+      "dataset_version": "3.0.0",
+      "domain": "CoT_Reasoning",
+      "difficulty": "hard",
+      "quality_score": 0.8,
+      "curriculum_stage": 3,
+      "source": "HOMELAB Curriculum Stage 3 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:ac1d3f2097a99092cf7216099ad1a38a56206158c83c5a162bac3323bce3ad4b",
+      "token_count": 92,
+      "text": "<usr>Implement topological sort algorithm</usr>\n<bot><thought>\nGoal: Topological sort of DAG.\nStep 1: Compute in-degree for all vertices.\nStep 2: Collect vertices with in-degree 0 in queue.\nStep 3: Process queue and update neighbor in-degrees.\n</thought>\n<execute>\ndef topological_sort(graph):\n    in_degree = {u: 0 for u in graph}\n    for u in graph:\n        for v in graph[u]:\n            in_degree[v] += 1\n    queue = [u for u in in_degree if in_degree[u] == 0]\n    res = []\n    while queue:\n        u = queue.pop(0)\n        res.append(u)\n        for v in graph[u]:\n            in_degree[v] -= 1\n            if in_degree[v] == 0:\n                queue.append(v)\n    return res\n</execute></bot>"
+    },
+    {
+      "sample_id": "sample_300_00031",
+      "dataset_version": "3.0.0",
+      "domain": "Needle_In_Haystack",
+      "difficulty": "hard",
+      "quality_score": 0.8,
+      "curriculum_stage": 3,
+      "source": "HOMELAB Curriculum Stage 3 Synthetic v3",
+      "licence": "MIT",
+      "sha256": "sha256:61085e8dbfdf9c67234f4643e75f1a90fb429ed8dc2c0e9368c90ddd35399872",
+      "token_count": 333,
+      "text": "# [Technical Document Header]\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\n\nNEEDLE_KEY: JARVIS_SECRET_TOKEN_98765\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\nArchitecture specification text line.\n\nQuery: What is the NEEDLE_KEY?\nAnswer: JARVIS_SECRET_TOKEN_98765"
+    }
+  ]
+}

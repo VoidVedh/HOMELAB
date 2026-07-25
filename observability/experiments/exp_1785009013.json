@@ -1,0 +1,120 @@
+{
+  "experiment_id": "exp_1785009013",
+  "timestamp": "2026-07-26 01:20:13",
+  "git_commit": "1339728",
+  "model_version": "0.8.0",
+  "dataset_version": "3.0.0",
+  "hyperparameters": {
+    "name": "jarvis1_v080",
+    "version": "0.8.0",
+    "model_type": "transformer",
+    "vocab_size": 1000,
+    "d_model": 256,
+    "n_layers": 4,
+    "n_heads": 8,
+    "n_kv_heads": 2,
+    "d_ff": 1024,
+    "max_seq_len": 2048,
+    "dropout": 0.1,
+    "norm_eps": 1e-05,
+    "learning_rate": 0.0003,
+    "min_learning_rate": 3e-05,
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "grad_clip": 1.0,
+    "warmup_steps": 100,
+    "max_steps": 1000,
+    "batch_size": 16
+  },
+  "training_metrics": {
+    "final_loss": 6.2598,
+    "perplexity": 523.1029,
+    "tokens_per_sec": 6031.91,
+    "total_tokens": 163840,
+    "elapsed_sec": 27.16
+  },
+  "checkpoint_path": "checkpoints/v080/jarvis1_v080_step20.pt",
+  "benchmark_results": {
+    "instruction": {
+      "humaneval_lite": {
+        "pass_at_1": 1.0,
+        "pass_at_5": 1.0,
+        "syntax_valid_rate": 100.0,
+        "total_tasks": 2
+      },
+      "mbpp_lite": {
+        "accuracy": 1.0,
+        "valid_syntax_count": 2,
+        "total_tasks": 2
+      },
+      "cot_reasoning": {
+        "passed": true,
+        "cot_reasoning_score": 100.0,
+        "parsed_thought_valid": true,
+        "total_tasks": 1
+      },
+      "needle_in_haystack": {
+        "passed": true,
+        "average_retrieval_pct": 100.0,
+        "depth_scores": {
+          "depth_0pct": 100.0,
+          "depth_50pct": 100.0,
+          "depth_100pct": 100.0
+        },
+        "context_window_tested": 512
+      },
+      "evaluation_duration_sec": 0.0002
+    },
+    "domain": {
+      "timestamp": "2026-07-26 01:20:13",
+      "categories": {
+        "model": {
+          "passed": true,
+          "sample_output": "<unk><unk>l<unk>i)<unk>e<unk> <unk><unk> <unk>o<unk>",
+          "first_token_latency_ms": 30.06,
+          "avg_latency_per_tok_ms": 19.88,
+          "tokens_per_sec": 50.3,
+          "cache_size_bytes": 53248
+        },
+        "coding": {
+          "passed": true,
+          "pass_at_1": 1.0,
+          "syntax_valid": true,
+          "test_cases_passed": 3,
+          "total_test_cases": 3
+        },
+        "reasoning": {
+          "passed": true,
+          "cot_step_verification": true,
+          "structured_thought_valid": true,
+          "structured_plan_valid": true,
+          "reasoning_steps": 2
+        },
+        "planning": {
+          "passed": true,
+          "dag_nodes_resolved": 3,
+          "topological_sort_valid": true,
+          "capability_selection_accurate": true
+        },
+        "tool": {
+          "passed": true,
+          "tool_schema_valid": true,
+          "sandbox_safe": true
+        },
+        "rag": {
+          "passed": true,
+          "query_rewritten": true,
+          "context_tokens_used": 128
+        },
+        "memory": {
+          "passed": true,
+          "memory_retrieved": true,
+          "experience_logged": true
+        }
+      },
+      "overall_success_rate_pct": 100.0,
+      "report_path": "observability/benchmarks/benchmark_run_1785009013.json"
+    }
+  }
+}

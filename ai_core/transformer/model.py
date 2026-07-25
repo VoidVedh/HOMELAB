@@ -19,6 +19,7 @@ class TransformerBlock(nn.Module):
         self.attn = CausalSelfAttention(
             d_model=config.d_model,
             n_heads=config.n_heads,
+            n_kv_heads=config.n_kv_heads,
             max_seq_len=config.max_seq_len,
             dropout=config.dropout
         )

@@ -12,11 +12,17 @@ class ModelConfig:
     d_model: int = 256
     n_layers: int = 6
     n_heads: int = 8
+    n_kv_heads: Optional[int] = None
     d_ff: int = 1024
     max_seq_len: int = 512
     dropout: float = 0.1
     norm_eps: float = 1e-5
-    
+
+    def __post_init__(self):
+        if self.n_kv_heads is None:
+            self.n_kv_heads = self.n_heads
+        assert self.n_heads % self.n_kv_heads == 0, f"n_heads ({self.n_heads}) must be divisible by n_kv_heads ({self.n_kv_heads})"
+
     # Training Configs
     learning_rate: float = 3e-4
     min_learning_rate: float = 3e-5
@@ -36,7 +42,7 @@ class ModelConfig:
             data = yaml.safe_load(f) or {}
 
         # Type conversion helper
-        int_fields = {"vocab_size", "d_model", "n_layers", "n_heads", "d_ff", "max_seq_len", "warmup_steps", "max_steps", "batch_size"}
+        int_fields = {"vocab_size", "d_model", "n_layers", "n_heads", "n_kv_heads", "d_ff", "max_seq_len", "warmup_steps", "max_steps", "batch_size"}
         float_fields = {"dropout", "norm_eps", "learning_rate", "min_learning_rate", "weight_decay", "beta1", "beta2", "grad_clip"}
 
         cleaned = {}

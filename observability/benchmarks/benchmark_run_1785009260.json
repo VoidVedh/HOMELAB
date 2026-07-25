@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-07-26 01:24:20",
+  "categories": {
+    "model": {
+      "passed": true,
+      "sample_output": "  =  1 in_degsut_mo",
+      "first_token_latency_ms": 102.36,
+      "avg_latency_per_tok_ms": 22.18,
+      "tokens_per_sec": 45.08,
+      "cache_size_bytes": 245760
+    },
+    "coding": {
+      "passed": true,
+      "pass_at_1": 1.0,
+      "syntax_valid": true,
+      "test_cases_passed": 3,
+      "total_test_cases": 3
+    },
+    "reasoning": {
+      "passed": true,
+      "cot_step_verification": true,
+      "structured_thought_valid": true,
+      "structured_plan_valid": true,
+      "reasoning_steps": 2
+    },
+    "planning": {
+      "passed": true,
+      "dag_nodes_resolved": 3,
+      "topological_sort_valid": true,
+      "capability_selection_accurate": true
+    },
+    "tool": {
+      "passed": true,
+      "tool_schema_valid": true,
+      "sandbox_safe": true
+    },
+    "rag": {
+      "passed": true,
+      "query_rewritten": true,
+      "context_tokens_used": 128
+    },
+    "memory": {
+      "passed": true,
+      "memory_retrieved": true,
+      "experience_logged": true
+    }
+  },
+  "overall_success_rate_pct": 100.0
+}

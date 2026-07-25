@@ -1,19 +1,20 @@
 {
-  "id": "aws_v1",
+  "id": "aws_v2",
   "domain": "AWS",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:82fdbeb1890daa2b2ef2d8c90fc293bac823b9b9203746f1626c37addb576e21",
+  "version": "2.0.0",
+  "checksum": "sha256:35a2dcb8dfbbd148b30089fbe456c0cdb480352cec49806a6a113e372f6f54be",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 2242,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 110.1,
-  "vocabulary_coverage_pct": 15.37,
-  "duplicate_percentage": 60.0,
+  "tokens": 659,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 30.95,
+  "vocabulary_coverage_pct": 22.76,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

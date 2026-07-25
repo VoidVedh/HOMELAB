@@ -1,19 +1,20 @@
 {
-  "id": "sql_v1",
+  "id": "sql_v2",
   "domain": "SQL",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:81ebf340bdb14ce56afb651009aac1914ed52e8346e3e7a6d924b7766893777f",
+  "version": "2.0.0",
+  "checksum": "sha256:b52a304022973a30009deeefbdcf3fe7ccc56818490944e5b5b2901e875bdf73",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 2502,
-  "created": "2026-07-23 00:41:32",
-  "average_sequence_length": 123.1,
-  "vocabulary_coverage_pct": 15.19,
-  "duplicate_percentage": 45.0,
+  "tokens": 689,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 32.45,
+  "vocabulary_coverage_pct": 24.63,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }

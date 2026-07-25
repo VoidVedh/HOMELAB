@@ -1,19 +1,20 @@
 {
-  "id": "technical_documentation_v1",
+  "id": "technical_documentation_v2",
   "domain": "Technical_Documentation",
-  "source": "Internal Research Synthetic Corpus",
+  "source": "Internal Research Synthetic Corpus v2",
   "license": "MIT",
-  "version": "1.0.0",
-  "checksum": "sha256:b8a891a0b92bd8ef97a5db6f6631dd1660b3fb2ce69127479caf97a5fb2300fc",
+  "version": "2.0.0",
+  "checksum": "sha256:328961b3ddb715bb8915d427b8d3fa4799aa0e274f3fb31415906669370a4b15",
   "tokenizer": "byte_bpe_v2",
   "documents": 20,
-  "tokens": 2512,
-  "created": "2026-07-23 00:41:33",
-  "average_sequence_length": 123.6,
-  "vocabulary_coverage_pct": 12.78,
-  "duplicate_percentage": 63.33,
+  "tokens": 1040,
+  "created": "2026-07-26 01:14:23",
+  "average_sequence_length": 50.0,
+  "vocabulary_coverage_pct": 21.64,
+  "duplicate_percentage": 0.0,
+  "deduplication_ratio": 1.0,
   "language_distribution": {
-    "en": 0.6,
-    "code": 0.4
+    "en": 0.5,
+    "code": 0.5
   }
 }
